@@ -1,0 +1,10 @@
+@use '../constants/colors' as *;
+
+.layout {
+  margin: 30px 100px;
+}
+
+.search-results-container {
+  background-color: $white;
+  border-radius: 4px;
+}
