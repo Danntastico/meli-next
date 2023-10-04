@@ -10,7 +10,7 @@ export default async function Items({ searchParams }) {
 
   return (
     <>
-      <Breadcrumbs>
+      <Breadcrumbs className='breadcrumbs-container'>
         {breadcrumbs?.slice(0, 3).reverse()}
       </Breadcrumbs>
       <div className='search-results-container'>

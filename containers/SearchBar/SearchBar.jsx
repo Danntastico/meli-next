@@ -1,22 +1,22 @@
 'use client'
 
-import "@/styles/components/searchbar.scss"
+import useSuggestions from "@/lib/hooks/useSuggestion"
+import { Autocomplete } from "@mantine/core"
 import { IconSearch } from '@tabler/icons-react'
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from 'next/navigation'
 import { useState } from "react"
 
+import "@/styles/components/searchbar.scss"
+
 export default function SearchBar({ queryParams }) {
   const router = useRouter()
+  const [query, setQuery] = useState('')
+  const { handleInputChange, results } = useSuggestions()
 
-  const [query, setQuery] = useState(queryParams || '')
 
-  const handleInputChange = (e) => {
-    setQuery(e.target.value)
-  }
-
-  const pushToItems = () => router.push(`/items?q=${query}`)
+  const handleOptionSubmit = (val) => router.push(`/items?q=${val}`)
 
   return (
     <header className="topbar">
@@ -30,20 +30,22 @@ export default function SearchBar({ queryParams }) {
             style={{ objectFit: 'cover' }}
           />
         </Link>
-        <div className="topbar-search">
-          <input
-            autoComplete="off"
-            className='topbar-search-input'
-            value={query}
-            name="query"
-            onChange={handleInputChange}
-            onKeyDown={e => e.key === 'Enter' && pushToItems()}
+          <Autocomplete
+            data={results || []}
+
+            onChange={(value) => {
+              handleInputChange(value)
+              setQuery(value)
+            }}
+            onKeyDown={e => e.key === 'Enter' && handleOptionSubmit(query)}
+            onOptionSubmit={(value) => handleOptionSubmit(value)}
             placeholder="Nunca dejes de buscar"
+            value={query}
+            width={100}
           />
-        </div>
         <button
           className="topbar-search-button"
-          onClick={() => pushToItems()}
+          onClick={() => handle()}
         >
           <IconSearch color="gray" />
         </button>

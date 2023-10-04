@@ -21,10 +21,12 @@ export default function RootLayout({ children }) {
         <ColorSchemeScript />
       </head>
       <body className={inter.className}>
-        <SearchBar />
-        <Suspense fallback={<Loading />}>
-          <MantineProvider>{children}</MantineProvider>
-        </Suspense>
+        <MantineProvider>
+          <SearchBar />
+          <Suspense fallback={<Loading />}>
+            {children}
+          </Suspense>
+        </MantineProvider>
       </body>
     </html>
   )
