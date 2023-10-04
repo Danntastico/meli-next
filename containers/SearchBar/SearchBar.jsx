@@ -6,14 +6,16 @@ import { IconSearch } from '@tabler/icons-react'
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from 'next/navigation'
-import { useState } from "react"
+import { useSearchParams } from 'next/navigation'
 
 import "@/styles/components/searchbar.scss"
 
-export default function SearchBar({ queryParams }) {
+export default function SearchBar() {
+  const searchParams = useSearchParams()
   const router = useRouter()
-  const [query, setQuery] = useState('')
-  const { handleInputChange, results } = useSuggestions()
+
+  const q = searchParams.get('q') 
+  const { handleInputChange, results, query, setQuery } = useSuggestions(q)
 
 
   const handleOptionSubmit = (val) => router.push(`/items?q=${val}`)
@@ -37,7 +39,7 @@ export default function SearchBar({ queryParams }) {
               handleInputChange(value)
               setQuery(value)
             }}
-            onKeyDown={e => e.key === 'Enter' && handleOptionSubmit(query)}
+            onKeyDown={e => e.key === 'Enter' && !!query && handleOptionSubmit(query)}
             onOptionSubmit={(value) => handleOptionSubmit(value)}
             placeholder="Nunca dejes de buscar"
             value={query}
@@ -45,7 +47,7 @@ export default function SearchBar({ queryParams }) {
           />
         <button
           className="topbar-search-button"
-          onClick={() => handle()}
+          onClick={() => !!query && handleOptionSubmit(query)}
         >
           <IconSearch color="gray" />
         </button>
