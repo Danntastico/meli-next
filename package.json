@@ -16,6 +16,7 @@
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "sharp": "^0.32.6",
     "swr": "^2.2.4"
   },
   "devDependencies": {

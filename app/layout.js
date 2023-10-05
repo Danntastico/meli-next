@@ -22,7 +22,9 @@ export default function RootLayout({ children }) {
       </head>
       <body className={inter.className}>
         <MantineProvider>
-          <SearchBar />
+          <Suspense fallback={<input disabled placeholder='Loading...' />}>
+            <SearchBar />
+          </Suspense>
           <Suspense fallback={<Loading />}>
             {children}
           </Suspense>
